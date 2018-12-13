@@ -214,7 +214,7 @@ class V2Agent {
   addMessagesResponse_(requestSource) {
     let messages = this.buildResponseMessages_(requestSource);
     if (messages.length > 0) {
-      this.addJson_({fulfillmentMessages: messages});
+      this.addJson_(messages);
     }
   }
 
@@ -228,7 +228,14 @@ class V2Agent {
     if (!this.responseJson_) {
       this.responseJson_ = {};
     }
-    Object.assign(this.responseJson_, responseJson);
+    if(this.responseJson_.fulfillmentMessages === undefined)
+    {
+        Object.assign(this.responseJson_, {fulfillmentMessages:responseJson});
+    }
+    else
+    {
+        this.responseJson_.fulfillmentMessages.push(responseJson);
+    }
   }
 
   /**
