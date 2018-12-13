@@ -230,7 +230,7 @@ class V2Agent {
     }
     if(this.responseJson_.fulfillmentMessages === undefined)
     {
-        Object.assign(this.responseJson_, {fulfillmentMessages:responseJson});
+        Object.assign(this.responseJson_, {fulfillmentMessages:[responseJson]});
     }
     else
     {
