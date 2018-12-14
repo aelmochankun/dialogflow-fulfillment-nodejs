@@ -228,6 +228,10 @@ class V2Agent {
     if (!this.responseJson_) {
       this.responseJson_ = {};
     }
+    if (Array.isArray(responseJson))
+    {
+      responseJson = responseJson[0];
+    } 
     if(this.responseJson_.fulfillmentMessages === undefined)
     {
         Object.assign(this.responseJson_, {fulfillmentMessages:[responseJson]});
