@@ -265,6 +265,7 @@ class V2Agent {
         responseJson.triggerEndOfConversation = this.agent.endConversation_;
       }
       debug('Response to Dialogflow: ' + JSON.stringify(responseJson));
+      console.log(JSON.stringify(responseJson));
       this.agent.response_.json(responseJson);
     }
   }
