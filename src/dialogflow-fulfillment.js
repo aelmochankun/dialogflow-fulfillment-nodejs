@@ -475,13 +475,13 @@ class WebhookClient {
    * @private
    */
   send_() {
-    const requestSource = this.requestSource;
+    const platform = this.requestSource;
     const messages = this.responseMessages_;
 
     // If AoG response and the first response isn't a text response,
     // add a empty text response as the first item
     if (
-      requestSource === PLATFORMS.ACTIONS_ON_GOOGLE && messages[0] &&
+      platform === PLATFORMS.ACTIONS_ON_GOOGLE && messages[0] &&
       !(messages[0] instanceof Text) &&
       !this.existingPayload_(PLATFORMS.ACTIONS_ON_GOOGLE)
     ) {
@@ -491,18 +491,33 @@ class WebhookClient {
     // if there is only text, send response
     // if platform may support messages, send messages
     // if there is a payload, send the payload for the repsonse
-    const payload = this.existingPayload_(requestSource);
-    if (payload && !payload.sendAsMessage) {
-      this.client.addPayloadResponse_(payload, requestSource);
+    for (let response of this.responseMessages_)
+    {
+      if (response instanceof Payload) {
+        var payload = null; 
+        if (
+          (!response.platform || response.platform === PLATFORMS.UNSPECIFIED) &&
+          (!platform || platform === PLATFORMS.UNSPECIFIED)
+        ) {
+          payload = response;
+        }
+        if (platform === response.platform) {
+          payload = response;
+        }
+        if (payload && !payload.sendAsMessage) {
+          this.client.addPayloadResponse_(payload, platform);
+        }
+      }
+      else if (messages.length === 1 &&
+        messages[0] instanceof Text) {
+        this.client.addTextResponse_();
+      } else if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(this.requestSource) > -1
+        || SUPPORTED_PLATFORMS.indexOf(this.requestSource) < 0) {
+        this.client.addMessagesResponse_(response,platform);
+      }
     }
-    if (messages.length === 1 &&
-      messages[0] instanceof Text) {
-      this.client.addTextResponse_();
-    } else if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(this.requestSource) > -1
-      || SUPPORTED_PLATFORMS.indexOf(this.requestSource) < 0) {
-      this.client.addMessagesResponse_(requestSource);
-    }
-    this.client.sendResponses_(requestSource);
+
+    this.client.sendResponses_(platform);
   }
 
   /**
@@ -561,3 +576,4 @@ class WebhookClient {
 }
 
 module.exports = {WebhookClient, Text, Card, Image, Suggestion, Payload};
+

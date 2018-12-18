@@ -211,8 +211,9 @@ class V2Agent {
    * @param {string} requestSource string indicating the source of the initial request
    * @private
    */
-  addMessagesResponse_(requestSource) {
-    let messages = this.buildResponseMessages_(requestSource);
+  addMessagesResponse_(response,requestSource) {
+    let messages = [response.getV2ResponseObject_(requestSource)];
+    //let messages = this.buildResponseMessages_(requestSource);
     if (messages.length > 0) {
       this.addJson_(messages);
     }
@@ -536,4 +537,5 @@ class V2Agent {
 }
 
 module.exports = V2Agent;
+
 
