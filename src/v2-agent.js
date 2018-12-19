@@ -186,7 +186,7 @@ class V2Agent {
    *
    * @private
    */
-  addTextResponse_() {
+  addTextResponse_(response,platform) {
     const message = this.agent.responseMessages_[0];
     const fulfillmentText = message.ssml || message.text;
     this.addJson_({fulfillmentText: fulfillmentText});
@@ -212,11 +212,11 @@ class V2Agent {
    * @private
    */
   addMessagesResponse_(response,requestSource) {
-    let messages = [response.getV2ResponseObject_(requestSource)];
+    let messages = response.getV2ResponseObject_(requestSource);
     //let messages = this.buildResponseMessages_(requestSource);
-    if (messages.length > 0) {
-      this.addJson_(messages);
-    }
+    //if (messages.length > 0) {
+    this.addJson_(messages);
+    //}
   }
 
   /**
@@ -229,10 +229,6 @@ class V2Agent {
     if (!this.responseJson_) {
       this.responseJson_ = {};
     }
-    if (Array.isArray(responseJson))
-    {
-      responseJson = responseJson[0];
-    } 
     if(this.responseJson_.fulfillmentMessages === undefined)
     {
         Object.assign(this.responseJson_, {fulfillmentMessages:[responseJson]});
@@ -537,5 +533,6 @@ class V2Agent {
 }
 
 module.exports = V2Agent;
+
 
 

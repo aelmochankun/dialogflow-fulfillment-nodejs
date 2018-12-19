@@ -508,12 +508,11 @@ class WebhookClient {
           this.client.addPayloadResponse_(payload, platform);
         }
       }
-      else if (messages.length === 1 &&
-        messages[0] instanceof Text) {
-        this.client.addTextResponse_();
-      } else if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(this.requestSource) > -1
-        || SUPPORTED_PLATFORMS.indexOf(this.requestSource) < 0) {
-        this.client.addMessagesResponse_(response,platform);
+      else if (response instanceof Text) {
+        if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(this.requestSource) > -1
+          || SUPPORTED_PLATFORMS.indexOf(this.requestSource) < 0) {
+          this.client.addMessagesResponse_(response,platform);
+        }
       }
     }
 
@@ -576,4 +575,5 @@ class WebhookClient {
 }
 
 module.exports = {WebhookClient, Text, Card, Image, Suggestion, Payload};
+
 
