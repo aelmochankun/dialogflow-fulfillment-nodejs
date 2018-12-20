@@ -201,7 +201,15 @@ class V2Agent {
    * @private
    */
   addPayloadResponse_(payload, requestSource) {
-    this.addJson_({payload: payload.getPayload_(requestSource),platform:requestSource});
+    if (!payload.sendAsMessage)
+    {
+      this.addJson_({payload: payload.getPayload_(requestSource),platform:requestSource});
+    }
+    else{
+      var sendPayload = payload.getPayload_(requestSource)
+      sendPayload["platform"] = requestSource
+      this.addJson_(sendPayload);
+    }
   }
 
   /**
@@ -533,6 +541,7 @@ class V2Agent {
 }
 
 module.exports = V2Agent;
+
 
 
 

@@ -114,7 +114,14 @@ class Payload extends RichResponse {
       response['google'] = this.payload;
     } else {
       const responsePlatform = V2_TO_V1_PLATFORM_NAME[platform] || platform;
-      response[responsePlatform] = this.payload;
+      if (!this.sendAsMessage)
+      {
+        response[responsePlatform] = this.payload;
+      }
+      else
+      {
+        response = this.payload;
+      }
     }
     return response;
   }
@@ -157,3 +164,4 @@ class Payload extends RichResponse {
 }
 
 module.exports = Payload;
+

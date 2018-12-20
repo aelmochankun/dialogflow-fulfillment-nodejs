@@ -504,9 +504,10 @@ class WebhookClient {
         if (platform === response.platform) {
           payload = response;
         }
-        if (payload && !payload.sendAsMessage) {
+        if (payload) {
           this.client.addPayloadResponse_(payload, platform);
         }
+        
       }
       else if (response instanceof Text) {
         if (SUPPORTED_RICH_MESSAGE_PLATFORMS.indexOf(this.requestSource) > -1
@@ -515,7 +516,6 @@ class WebhookClient {
         }
       }
     }
-
     this.client.sendResponses_(platform);
   }
 
@@ -575,5 +575,6 @@ class WebhookClient {
 }
 
 module.exports = {WebhookClient, Text, Card, Image, Suggestion, Payload};
+
 
 
