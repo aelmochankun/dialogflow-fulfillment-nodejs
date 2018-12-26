@@ -515,6 +515,9 @@ class WebhookClient {
           this.client.addMessagesResponse_(response,platform);
         }
       }
+      else if (response instanceof Image){
+        this.client.addImagesResponse_(response, platform);
+      }
     }
     this.client.sendResponses_(platform);
   }
@@ -575,6 +578,7 @@ class WebhookClient {
 }
 
 module.exports = {WebhookClient, Text, Card, Image, Suggestion, Payload};
+
 
 
 

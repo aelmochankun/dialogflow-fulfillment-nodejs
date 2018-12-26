@@ -227,6 +227,15 @@ class V2Agent {
     //}
   }
 
+
+  addImagesResponse_(response,requestSource){
+    let messages = response.getV2ResponseObject_(requestSource);
+    //let messages = this.buildResponseMessages_(requestSource);
+    //if (messages.length > 0) {
+    this.addJson_(messages);
+    //}    
+  }
+
   /**
    * Add v2 response to Dialogflow fulfillment webhook request
    *
@@ -541,7 +550,3 @@ class V2Agent {
 }
 
 module.exports = V2Agent;
-
-
-
-
